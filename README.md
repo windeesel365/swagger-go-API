@@ -1,4 +1,4 @@
-# swagger
+# swagger UI
 Using docker-compose with postgresql in go and swagger to UI interact with the API
 
 steps to run:
