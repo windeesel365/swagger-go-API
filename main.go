@@ -61,6 +61,22 @@ func initDB() {
 	}
 }
 
+func createShopperHandler(c echo.Context) error {
+	shopper := new(Shopper)
+	if err := c.Bind(shopper); err != nil {
+		return err
+	}
+
+	shopper.DateJoined = time.Now().Format("2006-01-02")
+
+	// Save to database
+	if err := db.Create(&shopper).Error; err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusCreated, shopper)
+}
+
 func main() {
 
 	initDB()
