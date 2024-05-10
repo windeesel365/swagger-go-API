@@ -102,6 +102,15 @@ func getAllShoppers(c echo.Context) error {
 	return c.JSON(http.StatusOK, ShoppersResponse{Shoppers: shoppers})
 }
 
+// getShopperByUsername godoc
+// @Summary Get shopper by username
+// @Description Retrieve a shopper by their username
+// @Tags shoppers
+// @Produce json
+// @Param username path string true "Shopper Username"
+// @Success 200 {object} Shopper
+// @Failure 404 {object} map[string]string
+// @Router /shoppers/{username} [get]
 func getShopperByUsername(c echo.Context) error {
 	username := c.Param("username")
 	var shopper Shopper
