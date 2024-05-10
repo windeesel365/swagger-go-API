@@ -40,7 +40,7 @@ var db *gorm.DB
 
 func initDB() {
 
-	//ต้อง load environment variables จาก .env file ก่อนเสมอ
+	//ต้องload environment variables จาก .env file ก่อนเสมอ
 	if err := godotenv.Load(); err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
@@ -69,7 +69,7 @@ func createShopperHandler(c echo.Context) error {
 
 	shopper.DateJoined = time.Now().Format("2006-01-02")
 
-	// Save to database
+	//save to database
 	if err := db.Create(&shopper).Error; err != nil {
 		return err
 	}
@@ -92,6 +92,29 @@ func getShopperByUsername(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, map[string]string{"error": "shopper not found"})
 	}
 	return c.JSON(http.StatusOK, shopper)
+}
+
+func updateShopperByUsername(c echo.Context) error {
+	username := c.Param("username")
+	var updatedShopper Shopper
+	if err := c.Bind(&updatedShopper); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid request payload"})
+	}
+	var existingShopper Shopper
+	if err := db.Where("username = ?", username).First(&existingShopper).Error; err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"error": "shopper not found"})
+	}
+	existingShopper.FullName = updatedShopper.FullName
+	existingShopper.Email = updatedShopper.Email
+	existingShopper.Street = updatedShopper.Street
+	existingShopper.City = updatedShopper.City
+	existingShopper.State = updatedShopper.State
+	existingShopper.ZipCode = updatedShopper.ZipCode
+
+	if err := db.Save(&existingShopper).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to update shopper"})
+	}
+	return c.JSON(http.StatusOK, existingShopper)
 }
 
 func main() {
