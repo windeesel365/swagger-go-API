@@ -1,8 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
+	"net/http"
 	"os"
+	"os/signal"
+	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
@@ -77,4 +81,30 @@ func main() {
 	//ใส่ swagger route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("PORT environment variable not set.")
+	}
+
+	//graceful shutdown //start server in goroutine
+	go func() {
+		if err := e.Start(":" + port); err != nil && err != http.ErrServerClosed {
+			e.Logger.Fatal("shutting down the server")
+		}
+	}()
+
+	// รอ interrupt signal เพื่อ gracefully shutdown server
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	e.Logger.Print("shutting down the server")
+
+	// context เพื่อ timeout shutdown after 10 seconds
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	// shutdown server
+	if err := e.Shutdown(ctx); err != nil {
+		e.Logger.Fatal(err)
+	}
 }
