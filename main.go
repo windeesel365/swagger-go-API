@@ -9,6 +9,8 @@ import (
 	"github.com/labstack/echo/middleware"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 type Shopper struct {
@@ -71,5 +73,8 @@ func main() {
 	e.GET("/shoppers/:username", getShopperByUsername)
 	e.PUT("/shoppers/:username", updateShopperByUsername)
 	e.DELETE("/shoppers/:username", deleteShopperByUsername)
+
+	//ใส่ swagger route
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 }
