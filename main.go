@@ -120,6 +120,18 @@ func getShopperByUsername(c echo.Context) error {
 	return c.JSON(http.StatusOK, shopper)
 }
 
+// updateShopperByUsername godoc
+// @Summary Update shopper by username
+// @Description Update a shopper's information by their username
+// @Tags shoppers
+// @Accept json
+// @Produce json
+// @Param username path string true "Shopper Username"
+// @Param shopper body Shopper true "Shopper object to update"
+// @Success 200 {object} Shopper
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Router /shoppers/{username} [put]
 func updateShopperByUsername(c echo.Context) error {
 	username := c.Param("username")
 	var updatedShopper Shopper
