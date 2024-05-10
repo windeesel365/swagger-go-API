@@ -5,6 +5,8 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -54,5 +56,20 @@ func initDB() {
 }
 
 func main() {
+
+	initDB()
+
+	//echo instance กับ configure middleware
+	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	e.POST("/shoppers", createShopperHandler)
+
+	// GETแบบทั้งหมด หรือตาม username ก็ได้
+	e.GET("/shoppers", getAllShoppers)
+	e.GET("/shoppers/:username", getShopperByUsername)
+	e.PUT("/shoppers/:username", updateShopperByUsername)
+	e.DELETE("/shoppers/:username", deleteShopperByUsername)
 
 }
