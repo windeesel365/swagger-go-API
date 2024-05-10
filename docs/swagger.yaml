@@ -1,0 +1,161 @@
+definitions:
+  main.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  main.Shopper:
+    properties:
+      city:
+        type: string
+      dateJoined:
+        type: string
+      email:
+        type: string
+      fullName:
+        type: string
+      state:
+        type: string
+      street:
+        type: string
+      username:
+        type: string
+      zipCode:
+        type: string
+    type: object
+  main.ShoppersResponse:
+    properties:
+      shoppers:
+        items:
+          $ref: '#/definitions/main.Shopper'
+        type: array
+    type: object
+info:
+  contact: {}
+paths:
+  /shoppers:
+    get:
+      description: Retrieve a list of all shoppers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.ShoppersResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all shoppers
+      tags:
+      - shoppers
+    post:
+      consumes:
+      - application/json
+      description: Create a new shopper with the provided data
+      parameters:
+      - description: Shopper object to be created
+        in: body
+        name: shopper
+        required: true
+        schema:
+          $ref: '#/definitions/main.Shopper'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created shopper object
+          schema:
+            $ref: '#/definitions/main.Shopper'
+        "400":
+          description: Error response
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: Create a new shopper
+  /shoppers/{username}:
+    delete:
+      description: Delete a shopper by their username
+      parameters:
+      - description: Shopper Username
+        in: path
+        name: username
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete shopper by username
+      tags:
+      - shoppers
+    get:
+      description: Retrieve a shopper by their username
+      parameters:
+      - description: Shopper Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Shopper'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get shopper by username
+      tags:
+      - shoppers
+    put:
+      consumes:
+      - application/json
+      description: Update a shopper's information by their username
+      parameters:
+      - description: Shopper Username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: Shopper object to update
+        in: body
+        name: shopper
+        required: true
+        schema:
+          $ref: '#/definitions/main.Shopper'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Shopper'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update shopper by username
+      tags:
+      - shoppers
+swagger: "2.0"

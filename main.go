@@ -9,10 +9,12 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	_ "swagger-go-api/docs"
 
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
