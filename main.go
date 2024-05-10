@@ -86,6 +86,14 @@ func createShopperHandler(c echo.Context) error {
 	return c.JSON(http.StatusCreated, shopper)
 }
 
+// getAllShoppers godoc
+// @Summary Get all shoppers
+// @Description Retrieve a list of all shoppers
+// @Tags shoppers
+// @Produce json
+// @Success 200 {object} ShoppersResponse
+// @Failure 500 {object} map[string]string
+// @Router /shoppers [get]
 func getAllShoppers(c echo.Context) error {
 	var shoppers []Shopper
 	if err := db.Find(&shoppers).Error; err != nil {
