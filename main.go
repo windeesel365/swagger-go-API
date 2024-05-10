@@ -155,6 +155,14 @@ func updateShopperByUsername(c echo.Context) error {
 	return c.JSON(http.StatusOK, existingShopper)
 }
 
+// deleteShopperByUsername godoc
+// @Summary Delete shopper by username
+// @Description Delete a shopper by their username
+// @Tags shoppers
+// @Param username path string true "Shopper Username"
+// @Success 204
+// @Failure 404 {object} map[string]string
+// @Router /shoppers/{username} [delete]
 func deleteShopperByUsername(c echo.Context) error {
 	username := c.Param("username")
 	var shopper Shopper
