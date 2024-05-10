@@ -77,6 +77,14 @@ func createShopperHandler(c echo.Context) error {
 	return c.JSON(http.StatusCreated, shopper)
 }
 
+func getAllShoppers(c echo.Context) error {
+	var shoppers []Shopper
+	if err := db.Find(&shoppers).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "could not fetch shoppers"})
+	}
+	return c.JSON(http.StatusOK, ShoppersResponse{Shoppers: shoppers})
+}
+
 func main() {
 
 	initDB()
