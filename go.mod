@@ -1,4 +1,4 @@
-module swagger-go-api
+module github.com/windeesel365/swagger-go-api
 
 go 1.22.3
 

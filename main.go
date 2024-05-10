@@ -14,7 +14,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	_ "swagger-go-api/docs"
+	_ "github.com/windeesel365/swagger-go-api/docs"
 
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
