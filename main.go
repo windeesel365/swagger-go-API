@@ -61,6 +61,15 @@ func initDB() {
 	}
 }
 
+// createShopperHandler godoc
+// @Summary Create a new shopper
+// @Description Create a new shopper with the provided data
+// @Accept json
+// @Produce json
+// @Param shopper body Shopper true "Shopper object to be created"
+// @Success 201 {object} Shopper "Created shopper object"
+// @Failure 400 {object} ErrorResponse "Error response"
+// @Router /shoppers [post]
 func createShopperHandler(c echo.Context) error {
 	shopper := new(Shopper)
 	if err := c.Bind(shopper); err != nil {
