@@ -85,6 +85,15 @@ func getAllShoppers(c echo.Context) error {
 	return c.JSON(http.StatusOK, ShoppersResponse{Shoppers: shoppers})
 }
 
+func getShopperByUsername(c echo.Context) error {
+	username := c.Param("username")
+	var shopper Shopper
+	if err := db.Where("username = ?", username).First(&shopper).Error; err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"error": "shopper not found"})
+	}
+	return c.JSON(http.StatusOK, shopper)
+}
+
 func main() {
 
 	initDB()
